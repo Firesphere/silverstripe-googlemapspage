@@ -11,7 +11,8 @@ class GoogleMapsDecorator extends DataObjectDecorator {
 				"MapType" => "Enum('roadmap, satellite, terrain, hybrid')",
 				"MarkerSize" => "Enum('tiny, mid, small')",
 				"MarkerColor" => "Enum('black, brown, green, purple, yellow, blue, gray, orange, red, white')",
-				"MarkerLabel" => "Enum('A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z')"
+				"MarkerLabel" => "Enum('A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z')",
+				"ZoomLevel" => "Int" 
 			)
 		);
 	}  
@@ -26,6 +27,29 @@ class GoogleMapsDecorator extends DataObjectDecorator {
 				"satellite" => "satellite",
 				"terrain" => "terrain",
 				"hybrid" => "hybrid"
+			)),
+			new DropdownField("ZoomLevel", "Zoom level", array(
+				"1" => "1 (the lowest zoom level shows the whole world)",
+				"2" => "2",
+				"3" => "3",
+				"4" => "4",
+				"5" => "5",
+				"6" => "6",
+				"7" => "7",
+				"8" => "8",
+				"9" => "9",
+				"10" => "10",
+				"11" => "11",
+				"12" => "12",
+				"13" => "13",
+				"14" => "14",
+				"15" => "15",
+				"16" => "16",
+				"17" => "17",
+				"18" => "18",
+				"19" => "19",
+				"20" => "20",
+				"21" => "21 (the highest zoom level, zooms upto one building)"
 			)),
 			new LiteralField("Markers", "<h2>Marker settings</h2>"),
 			new DropdownField("MarkerSize", "Marker size", array(
@@ -82,6 +106,7 @@ class GoogleMapsDecorator extends DataObjectDecorator {
 		$latitudes = $this->owner->Latitudes ? $this->owner->Latitudes : 0;
 		$longitudes = $this->owner->Longitudes ? $this->owner->Longitudes : 0;
 		$address = $this->owner->Address;
+		$zoomLevel = $this->owner->ZoomLevel;
 		$mapType = strtoupper($this->owner->MapType);
 		$markerSize = $this->owner->MarkerSize;
 		$markerColor = $this->owner->MarkerColor;
@@ -94,12 +119,12 @@ class GoogleMapsDecorator extends DataObjectDecorator {
 					geocoder = new google.maps.Geocoder();
 					geocoder.geocode( { 'address': address}, function(results, status) {
 						if (status == google.maps.GeocoderStatus.OK) { 
-					        var myOptions = {
-						      zoom: 8,
+					        var mapOptions = {
+						      zoom: {$zoomLevel},
 						      center: results[0].geometry.location,
 						      mapTypeId: google.maps.MapTypeId.{$mapType}
 						    };
-						    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);  
+						    map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);  
 							var marker = new google.maps.Marker({
 					            map: map, 
 					            position: results[0].geometry.location
@@ -110,12 +135,12 @@ class GoogleMapsDecorator extends DataObjectDecorator {
 					}); 
 			    }else{ 
 					var latlng = new google.maps.LatLng($latitudes, $longitudes);
-				    var myOptions = {
+				    var mapOptions = {
 				      zoom: 8,
 				      center: latlng,
 				      mapTypeId: google.maps.MapTypeId.{$mapType}
 				    };
-				    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); 
+				    map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions); 
 					var marker = new google.maps.Marker({
 			            map: map, 
 			            position: latlng
