@@ -1,24 +1,23 @@
 <?php
 
-class GoogleMapsDecorator extends DataObjectDecorator {
+class GoogleMapsDecorator extends DataExtension {
 	
-	public function extraStatics(){
-		return array (
-	 		"db" => array(
-				"Latitudes" => "Varchar",
-				"Longitudes" => "Varchar",
-				"Address" => "Varchar(600)",
-				"MapType" => "Enum('roadmap, satellite, terrain, hybrid')",
-				"MarkerSize" => "Enum('tiny, mid, small')",
-				"MarkerColor" => "Enum('black, brown, green, purple, yellow, blue, gray, orange, red, white')",
-				"MarkerLabel" => "Enum('A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z')",
-				"ZoomLevel" => "Int" 
-			)
-		);
-	}  
+
+	static $db = array(
+		"Latitudes" => "Varchar",
+		"Longitudes" => "Varchar",
+		"Address" => "Varchar(600)",
+		"MapType" => "Enum('roadmap, satellite, terrain, hybrid')",
+		"MarkerSize" => "Enum('tiny, mid, small')",
+		"MarkerColor" => "Enum('black, brown, green, purple, yellow, blue, gray, orange, red, white')",
+		"MarkerLabel" => "Enum('A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z')",
+		"ZoomLevel" => "Int" 
+	);	
 	
-	public function updateCMSFields($fields){
-		$fields->addFieldsToTab("Root.Content.Maps", array(
+	
+	
+	public function updateCMSFields(FieldList $fields){
+		$fields->addFieldsToTab("Root.Maps", array(
 			new TextField("Latitudes"),
 			new TextField("Longitudes"),
 			new TextField("Address"),
