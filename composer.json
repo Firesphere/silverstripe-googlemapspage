@@ -1,0 +1,18 @@
+{
+  "name": "anselmdk/silverstripe-googlemapspage",
+  "description": "Pagetype with Google Map for your contact page..",
+  "type": "silverstripe-module",
+  "homepage": "https://github.com/anselmdk/silverstripe-googlemapspage",
+  "keywords": ["silverstripe", "map", "contact"],
+  "license": "MIT",
+  "authors": [
+    {"name": "Anselm Christophersen","email": "ac@anselm.dk"}
+  ],
+  "require": {
+    "silverstripe/cms": "~3.1",
+    "silverstripe/framework": "~3.1"
+  },
+  "extra": {
+    "installer-name": "googlemapspage"
+  }
+}
